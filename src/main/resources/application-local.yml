@@ -1,0 +1,18 @@
+server:
+  port: 8090
+spring:
+   application:
+      name: auth
+   datasource:
+      driver-class-name: org.postgresql.Driver
+      username: root
+      password: root
+      url: jdbc:postgresql://localhost:5432/postgres
+   jpa:
+      properties:
+         hibernate:
+            ddl-auto: update
+            proc.param_null_passing: true
+            jdbc:
+                time_zone: UTC-3
+            show-sql: true
