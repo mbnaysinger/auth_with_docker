@@ -24,10 +24,13 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
+        System.out.println("--- chegou aqui");
+        System.out.println("--- " + request.getUsername() + " " + request.getPassword());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         final UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
+        System.out.println("--- " + user.getUsername());
         if (user != null) {
             return ResponseEntity.ok(jwtService.generateToken(user));
         }

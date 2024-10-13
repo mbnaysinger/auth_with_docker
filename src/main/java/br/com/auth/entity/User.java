@@ -32,13 +32,16 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String cpf;
-
     private String username;
     private String password;
     private String email;
+    @Column(name = "last_login_date")
     private LocalDateTime lastLoginDate;
+    @Column(name = "last_2fa_date")
     private LocalDateTime last2FADate;
+    @Column(name = "two_fa_code")
     private String twoFACode;
+    @Column(name = "two_fa_code_expiration")
     private LocalDateTime twoFACodeExpiration;
 
     @Enumerated(EnumType.STRING)

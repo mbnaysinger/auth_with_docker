@@ -13,7 +13,8 @@ spring:
          hibernate:
             default_schema: auth
             dialect: org.hibernate.dialect.PostgreSQLDialect
-            ddl-auto: create
+            hbm2ddl:
+              auto: create
             proc.param_null_passing: true
             jdbc:
                 time_zone: UTC-3
