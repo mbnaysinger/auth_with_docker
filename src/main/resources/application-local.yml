@@ -16,3 +16,6 @@ spring:
             jdbc:
                 time_zone: UTC-3
             show-sql: true
+jwt:
+  secret: mbnaysinger1992
+  expiration: 86400000 #24 horas
