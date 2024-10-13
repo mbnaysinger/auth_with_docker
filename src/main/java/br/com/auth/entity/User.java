@@ -10,8 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,10 +22,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
+@Table(name = "user", schema = "auth")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user", schema = "auth")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,15 +34,19 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String cpf;
-    private String username;
+
     private String password;
     private String email;
+
     @Column(name = "last_login_date")
     private LocalDateTime lastLoginDate;
+
     @Column(name = "last_2fa_date")
     private LocalDateTime last2FADate;
+
     @Column(name = "two_fa_code")
     private String twoFACode;
+
     @Column(name = "two_fa_code_expiration")
     private LocalDateTime twoFACodeExpiration;
 
@@ -53,22 +59,27 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return this.cpf; // Usando CPF como username
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

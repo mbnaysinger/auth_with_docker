@@ -14,7 +14,7 @@ spring:
             default_schema: auth
             dialect: org.hibernate.dialect.PostgreSQLDialect
             hbm2ddl:
-              auto: create
+              auto: none
             proc.param_null_passing: true
             jdbc:
                 time_zone: UTC-3
@@ -24,5 +24,5 @@ spring:
 #       mode: always
 #       schema-locations: classpath:schema.sql
 jwt:
-  secret: mbnaysinger1992
+  secret: Efh6U/bVA6sP7srDAEgMvTCXRsovVv2nTokqQ3syM/p/WuFmQcYKa9UvAOHdYClaSlWSTPT0RRcK2h3NK+BrEw==
   expiration: 86400000 #24 horas

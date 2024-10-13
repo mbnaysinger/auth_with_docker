@@ -1,5 +1,6 @@
 package br.com.auth.config.jwt;
 
+import br.com.auth.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,8 +34,14 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+//    public String generateToken(UserDetails userDetails) {
+//        return generateToken(new HashMap<>(), userDetails);
+//    }
+
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("cpf", ((User) userDetails).getCpf());
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(

@@ -1,6 +1,7 @@
 package br.com.auth.service;
 
 import br.com.auth.config.jwt.JwtService;
+import br.com.auth.dto.AuthenticationResponse;
 import br.com.auth.entity.User;
 import br.com.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +18,16 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    //private final EmailService emailService;
 
-    public String authenticate(String cpf, String password) {
+    public AuthenticationResponse authenticate(String cpf, String password) {
         User user = userRepository.findByCpf(cpf)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        System.out.println("--- " + user.getUsername());
+
+        System.out.println("--- " + password + " " + user.getPassword());
+
+        System.out.println(!passwordEncoder.matches(password, user.getPassword()));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Invalid password");
@@ -31,18 +36,19 @@ public class AuthService {
         user.setLastLoginDate(LocalDateTime.now());
         userRepository.save(user);
 
+        String jwtToken = jwtService.generateToken(user);
+        return new AuthenticationResponse(jwtToken);
+    }
+
 //        if (needs2FA(user)) {
 //            generate2FACode(user);
 //            return "2FA required";
 //        }
 
-        return jwtService.generateToken(user);
-    }
-
-    private boolean needs2FA(User user) {
-        return user.getLast2FADate() == null ||
-                ChronoUnit.DAYS.between(user.getLast2FADate(), LocalDateTime.now()) >= 15;
-    }
+//    private boolean needs2FA(User user) {
+//        return user.getLast2FADate() == null ||
+//                ChronoUnit.DAYS.between(user.getLast2FADate(), LocalDateTime.now()) >= 15;
+//    }
 
 //    private void generate2FACode(User user) {
 //        String code = generateRandomCode();

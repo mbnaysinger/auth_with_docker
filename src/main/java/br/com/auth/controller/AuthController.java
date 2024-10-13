@@ -2,6 +2,8 @@ package br.com.auth.controller;
 
 import br.com.auth.config.jwt.JwtService;
 import br.com.auth.dto.AuthenticationRequest;
+import br.com.auth.dto.AuthenticationResponse;
+import br.com.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,18 +24,12 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    private final AuthService authService;
+
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
-        System.out.println("--- chegou aqui");
-        System.out.println("--- " + request.getUsername() + " " + request.getPassword());
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
-        final UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
-        System.out.println("--- " + user.getUsername());
-        if (user != null) {
-            return ResponseEntity.ok(jwtService.generateToken(user));
-        }
-        return ResponseEntity.status(400).body("Some error has occurred");
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+
+        AuthenticationResponse response = authService.authenticate(request.getCpf(), request.getPassword());
+        return ResponseEntity.ok(response);
     }
 }
