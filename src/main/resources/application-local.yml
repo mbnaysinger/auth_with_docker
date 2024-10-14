@@ -19,10 +19,21 @@ spring:
             jdbc:
                 time_zone: UTC-3
             show-sql: true
+   mail:
+     username: @gmail.com
+     password: zwouaxujgztkeupl
+     port: 587
+     host: smtp.gmail.com
+     properties:
+       mail:
+         smtp:
+           starttls:
+             enable: true
+           auth: true
 #   sql:
 #     init:
 #       mode: always
 #       schema-locations: classpath:schema.sql
 jwt:
   secret: Efh6U/bVA6sP7srDAEgMvTCXRsovVv2nTokqQ3syM/p/WuFmQcYKa9UvAOHdYClaSlWSTPT0RRcK2h3NK+BrEw==
-  expiration: 86400000 #24 horas
+  expiration: 86400000 #24 horas:
