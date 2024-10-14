@@ -23,12 +23,6 @@ public class AuthService {
         User user = userRepository.findByCpf(cpf)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        System.out.println("--- " + user.getUsername());
-
-        System.out.println("--- " + password + " " + user.getPassword());
-
-        System.out.println(!passwordEncoder.matches(password, user.getPassword()));
-
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Invalid password");
         }
@@ -37,7 +31,11 @@ public class AuthService {
         userRepository.save(user);
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        AuthenticationResponse ar = new AuthenticationResponse();
+        ar.setCpf(cpf);
+        ar.setJwtToken(jwtToken);
+
+        return ar;
     }
 
 //        if (needs2FA(user)) {

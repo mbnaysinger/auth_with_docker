@@ -14,8 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
-    private String username;
-    private String password;
+    private String cpf;
     private String jwtToken;
 
     public AuthenticationResponse(String jwtToken) {
